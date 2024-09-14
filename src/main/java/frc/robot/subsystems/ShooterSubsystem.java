@@ -7,25 +7,32 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase{
-    private CANSparkMax shooter_motor = new CANSparkMax(20, MotorType.kBrushless);
+    private CANSparkMax left_shooter_motor = new CANSparkMax(20, MotorType.kBrushless);
+    private CANSparkMax right_shooter_motor = new CANSparkMax(21, MotorType.kBrushless);
 
-    private RelativeEncoder encoder;
+    private RelativeEncoder left_encoder;
+    private RelativeEncoder right_encoder;
 
     public ShooterSubsystem() {
-        shooter_motor.restoreFactoryDefaults();
+        left_shooter_motor.restoreFactoryDefaults();
+        right_shooter_motor.restoreFactoryDefaults();
 
-        shooter_motor.setInverted(false);
+        left_shooter_motor.setInverted(false);
+        right_shooter_motor.setInverted(false);
 
-        shooter_motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        left_shooter_motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        right_shooter_motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
-        encoder = shooter_motor.getEncoder();
+        left_encoder = left_shooter_motor.getEncoder();
+        right_encoder = right_shooter_motor.getEncoder();
     }
 
     public void setShooterSpeed(double speed) {
-        shooter_motor.set(speed);
+        left_shooter_motor.set(speed);
+        right_shooter_motor.set(speed);
     }
 
     public double getShooterSpeed() {
-        return shooter_motor.get();
+        return left_shooter_motor.get();
     }
 }

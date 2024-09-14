@@ -36,6 +36,7 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve"));
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
   private final JoystickButton driver_b_button = new JoystickButton(driverXbox, 1);
   private final JoystickButton driver_right_bumper_button = new JoystickButton(driverXbox, 6);
@@ -81,7 +82,7 @@ public class RobotContainer
     // driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
 
     driver_b_button.onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    // driver_right_bumper_button.whileTrue(new ShootCommand(shooterSubsystem));
+    driver_right_bumper_button.whileTrue(new ShootCommand(shooterSubsystem));
   }
 
   /**

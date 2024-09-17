@@ -11,6 +11,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -36,18 +39,26 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve"));
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
   private final JoystickButton driver_b_button = new JoystickButton(driverXbox, 1);
   private final JoystickButton driver_right_bumper_button = new JoystickButton(driverXbox, 6);
 
   // private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
+  //Makes Auto Chooser
+  private SendableChooser<String> autoChooser = new SendableChooser<String>();
+  private ShuffleboardTab tab = Shuffleboard.getTab("auto chooser");
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer()
   {
+    //Adding Auto Chooser Options
+    autoChooser.setDefaultOption("Short Line One", "Short Line One");
+
+    autoChooser.addOption("Short Line Two", "Short Line Two");
+
     // Configure the trigger bindings
     configureBindings();
 
@@ -61,6 +72,7 @@ public class RobotContainer
     //     () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND) * 0.5,
     //     () -> driverXbox.getRightX(),
     //     () -> driverXbox.getRightY());
+    tab.add(autoChooser);
 
     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase, driverXbox);
 
@@ -82,7 +94,7 @@ public class RobotContainer
     // driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
 
     driver_b_button.onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driver_right_bumper_button.whileTrue(new ShootCommand(shooterSubsystem));
+    // driver_right_bumper_button.whileTrue(new ShootCommand(shooterSubsystem));
   }
 
   /**

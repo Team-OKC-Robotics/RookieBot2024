@@ -4,30 +4,19 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.AbsoluteDrive;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.ShootCommand;
-import frc.robot.commands.TimedIntakeCommand;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import java.io.File;
+
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 
 public class RobotContainer
@@ -51,7 +40,7 @@ public class RobotContainer
 
   //Makes Auto Chooser
   private SendableChooser<String> autoChooser = new SendableChooser<String>();
-  private ShuffleboardTab tab = Shuffleboard.getTab("auto chooser");
+  private ShuffleboardTab tab = Shuffleboard.getTab("Driver");
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -78,9 +67,12 @@ public class RobotContainer
     driver_right_bumper_button.whileTrue(shootCommand);
   }
 
+  public void zeroGyro() {
+    drivebase.zeroGyro();
+  }
 
   public Command getAutonomousCommand()
   {
-    return null;
+    return new PathPlannerAuto(autoChooser.getSelected());
   }
 }

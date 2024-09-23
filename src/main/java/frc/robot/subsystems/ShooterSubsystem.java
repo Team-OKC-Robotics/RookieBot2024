@@ -20,8 +20,8 @@ public class ShooterSubsystem extends SubsystemBase{
     private double left_motor_setpoint = 0.0;
     private double right_motor_setpoint = 0.0;
 
-    private final double PID_P = 0.1;
-    private final double PID_FF = 0.075;
+    private final double PID_P = 0.001;
+    private final double PID_FF = 0.0002;
     private final double RPM_DIFF_THRESHOLD = 500;
 
     public ShooterSubsystem() {

@@ -56,6 +56,10 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    // Zero gyro at the start just in case the robot was turned on and then set into place.
+    // ASSUMES that we align the robot at the start.
+    m_robotContainer.zeroGyro();
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

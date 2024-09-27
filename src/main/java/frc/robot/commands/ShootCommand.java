@@ -20,28 +20,36 @@ public class ShootCommand extends Command{
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterSubsystem.setShooterSpeed(5000, 5000);
+    intakeSubsystem.stopIntake();
+    shooterSubsystem.setShooterSpeed(1000, 1000);
     spunUp = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Wait for shooter to spin up before turning on intake
     if (shooterSubsystem.atFullSpeed()) {
       spunUp = true;
     }
 
+    // Turn on intake if shooter is spun up
     if (spunUp) {
       intakeSubsystem.setIntakeSpeed(0.7);
-    } else {
-      intakeSubsystem.setIntakeSpeed(0.0);
+    }
+
+    // Tell the intake subsystem that we fired the note
+    if (spunUp && !intakeSubsystem.sensingNote()) {
+      intakeSubsystem.setHasNote(false);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Stop shooter and intake
     shooterSubsystem.stopShooter();
+    intakeSubsystem.stopIntake();
   }
 
   // Returns true when the command should end.

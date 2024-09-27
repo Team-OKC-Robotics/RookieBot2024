@@ -5,11 +5,14 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase{
-    private CANSparkMax left_shooter_motor = new CANSparkMax(20, MotorType.kBrushless);
-    private CANSparkMax right_shooter_motor = new CANSparkMax(21, MotorType.kBrushless);
+    private CANSparkMax left_shooter_motor = new CANSparkMax(12, MotorType.kBrushless);
+    private CANSparkMax right_shooter_motor = new CANSparkMax(11, MotorType.kBrushless);
 
     private RelativeEncoder left_encoder;
     private RelativeEncoder right_encoder;
@@ -21,14 +24,18 @@ public class ShooterSubsystem extends SubsystemBase{
     private double right_motor_setpoint = 0.0;
 
     private final double PID_P = 0.001;
-    private final double PID_FF = 0.0002;
+    private final double PID_FF = 0.000199;
     private final double RPM_DIFF_THRESHOLD = 500;
+
+    private ShuffleboardTab tab = Shuffleboard.getTab("Driver");
+    private GenericEntry leftRPMEntry = tab.add("Left RPM", 0.0).getEntry();
+    private GenericEntry rightRPMEntry = tab.add("Right RPM", 0.0).getEntry();
 
     public ShooterSubsystem() {
         left_shooter_motor.restoreFactoryDefaults();
         right_shooter_motor.restoreFactoryDefaults();
 
-        left_shooter_motor.setInverted(false);
+        left_shooter_motor.setInverted(true);
         right_shooter_motor.setInverted(false);
 
         left_shooter_motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
@@ -39,9 +46,12 @@ public class ShooterSubsystem extends SubsystemBase{
 
         left_PID_controller = left_shooter_motor.getPIDController();
         right_PID_controller = right_shooter_motor.getPIDController();
+
+        // Ramp up the shooter motors to full speed over 1.5 seconds
+        left_shooter_motor.setClosedLoopRampRate(1.5);
+        right_shooter_motor.setClosedLoopRampRate(1.5);
     
-        // Prevent outputing negative values which can damage
-        // the motors.
+        // Prevent the motors from running in reverse
         left_PID_controller.setOutputRange(0.0, 1.0);
         right_PID_controller.setOutputRange(0.0, 1.0);
     
@@ -73,8 +83,15 @@ public class ShooterSubsystem extends SubsystemBase{
     }
 
     public boolean atFullSpeed() {
+        // Check if the shooter motors are within the RPM_DIFF_THRESHOLD of the setpoint
         boolean left_motor_at_speed = Math.abs(left_encoder.getVelocity() - left_motor_setpoint) < RPM_DIFF_THRESHOLD;
         boolean right_motor_at_speed = Math.abs(right_encoder.getVelocity() - right_motor_setpoint) < RPM_DIFF_THRESHOLD;
         return left_motor_at_speed && right_motor_at_speed;
+    }
+
+    @Override
+    public void periodic() {
+        leftRPMEntry.setDouble(left_encoder.getVelocity());
+        rightRPMEntry.setDouble(right_encoder.getVelocity());
     }
 }

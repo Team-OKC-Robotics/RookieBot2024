@@ -30,11 +30,13 @@ public class RobotContainer
 
   private final ShootCommand shootCommand = new ShootCommand(shooterSubsystem, intakeSubsystem);
   private final IntakeCommand intakeCommand = new IntakeCommand(shooterSubsystem, intakeSubsystem);
+  private final OutakeCommand outakeCommand = new OutakeCommand(shooterSubsystem, intakeSubsystem);
   private final TimedIntakeCommand pullBackCommand = new TimedIntakeCommand(shooterSubsystem, intakeSubsystem, 0.5);
 
-  private final JoystickButton driver_b_button = new JoystickButton(driverXbox, 1);
+  private final JoystickButton driver_a_button = new JoystickButton(driverXbox, 1);
   private final JoystickButton driver_left_bumper_button = new JoystickButton(driverXbox, 5);
   private final JoystickButton driver_right_bumper_button = new JoystickButton(driverXbox, 6);
+  private final JoystickButton driver_b_button = new JoystickButton(driverXbox, 2);
 
   // private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
@@ -62,8 +64,9 @@ public class RobotContainer
 
   private void configureBindings()
   {
-    driver_b_button.onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driver_left_bumper_button.whileTrue(intakeCommand).onFalse(pullBackCommand);
+    driver_a_button.onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    driver_b_button.whileTrue(outakeCommand);
+    driver_left_bumper_button.whileTrue(intakeCommand);
     driver_right_bumper_button.whileTrue(shootCommand);
   }
 

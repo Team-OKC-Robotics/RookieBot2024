@@ -28,6 +28,9 @@ public class RobotContainer
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
+  AbsoluteDrive absoluteDriveSlow = new AbsoluteDrive(drivebase, driverXbox, 0.4);
+  AbsoluteDrive absoluteDriveFast = new AbsoluteDrive(drivebase, driverXbox, 0.6);
+
   private final ShootCommand shootCommand = new ShootCommand(shooterSubsystem, intakeSubsystem);
   private final IntakeCommand intakeCommand = new IntakeCommand(shooterSubsystem, intakeSubsystem);
   private final OutakeCommand outakeCommand = new OutakeCommand(shooterSubsystem, intakeSubsystem);
@@ -37,6 +40,7 @@ public class RobotContainer
   private final JoystickButton driver_left_bumper_button = new JoystickButton(driverXbox, 5);
   private final JoystickButton driver_right_bumper_button = new JoystickButton(driverXbox, 6);
   private final JoystickButton driver_b_button = new JoystickButton(driverXbox, 2);
+  private final JoystickButton driver_x_button = new JoystickButton(driverXbox, 3);
 
   // private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
@@ -50,22 +54,23 @@ public class RobotContainer
   public RobotContainer()
   {
     //Adding Auto Chooser Options
-    autoChooser.setDefaultOption("Short Line One", "Short Line One");
-    autoChooser.addOption("Short Line Two", "Short Line Two");
+    autoChooser.setDefaultOption("Move Forward", "Move Forward");
+    autoChooser.addOption("No Auto", "No Auto");
+    // autoChooser.addOption("Short Line Two", "Short Line Two");
 
     configureBindings();
 
     tab.add(autoChooser);
 
     // Set default swerve drive command
-    AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase, driverXbox);
-    drivebase.setDefaultCommand(closedAbsoluteDrive);
+    drivebase.setDefaultCommand(absoluteDriveSlow);
   }
 
   private void configureBindings()
   {
     driver_a_button.onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driver_b_button.whileTrue(outakeCommand);
+    driver_x_button.whileTrue(outakeCommand);
+    driver_b_button.whileTrue(absoluteDriveFast);
     driver_left_bumper_button.whileTrue(intakeCommand);
     driver_right_bumper_button.whileTrue(shootCommand);
   }

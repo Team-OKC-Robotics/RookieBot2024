@@ -23,9 +23,9 @@ public class ShooterSubsystem extends SubsystemBase{
     private double left_motor_setpoint = 0.0;
     private double right_motor_setpoint = 0.0;
 
-    private final double PID_P = 0.001;
+    private final double PID_P = 0.0001;
     private final double PID_FF = 0.000199;
-    private final double RPM_DIFF_THRESHOLD = 500;
+    private final double RPM_DIFF_THRESHOLD = 200;
 
     private ShuffleboardTab tab = Shuffleboard.getTab("Driver");
     private GenericEntry leftRPMEntry = tab.add("Left RPM", 0.0).getEntry();
@@ -48,8 +48,8 @@ public class ShooterSubsystem extends SubsystemBase{
         right_PID_controller = right_shooter_motor.getPIDController();
 
         // Ramp up the shooter motors to full speed over 1.5 seconds
-        left_shooter_motor.setClosedLoopRampRate(1.5);
-        right_shooter_motor.setClosedLoopRampRate(1.5);
+        left_shooter_motor.setClosedLoopRampRate(1.2);
+        right_shooter_motor.setClosedLoopRampRate(1.2);
     
         // Prevent the motors from running in reverse
         left_PID_controller.setOutputRange(0.0, 1.0);

@@ -8,7 +8,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -29,6 +32,9 @@ public class AbsoluteDrive extends Command {
   private final XboxController driverXbox;
 
   private boolean initRotation = false;
+
+  private double speed_mult = 0.4;
+  private double speed_mult_cbrt = Math.cbrt(speed_mult);
 
   /**
    * Used to drive a swerve robot in full field-centric mode. vX and vY supply
@@ -63,9 +69,12 @@ public class AbsoluteDrive extends Command {
    *                          with no deadband. Positive is away from the alliance
    *                          wall.
    */
-  public AbsoluteDrive(SwerveSubsystem swerve, XboxController driverXbox) {
+  public AbsoluteDrive(SwerveSubsystem swerve, XboxController driverXbox, double speed_multiplier) {
     this.swerve = swerve;
     this.driverXbox = driverXbox;
+
+    this.speed_mult = speed_multiplier;
+    this.speed_mult_cbrt = Math.cbrt(speed_multiplier);
 
     addRequirements(swerve);
   }
@@ -78,12 +87,14 @@ public class AbsoluteDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double vX = Math.cbrt(MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND) * -0.3);
-    double vY = Math.cbrt(MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND) * -0.3);
+    double vX = Math.cbrt(MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND) * -speed_mult);
+    double vY = Math.cbrt(MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND) * -speed_mult);
 
-    if (driverXbox.getBButton()) {
-      vX = Math.cbrt(MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND) * -0.5);
-      vY = Math.cbrt(MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND) * -0.);
+    double total_mag = Math.sqrt(vX*vX + vY * vY);
+    
+    if (total_mag > speed_mult_cbrt) {
+      vX /= (total_mag / speed_mult_cbrt);
+      vY /= (total_mag / speed_mult_cbrt);
     }
 
     double headingHorizontal = -driverXbox.getRightX();

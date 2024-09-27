@@ -21,7 +21,7 @@ public class ShootCommand extends Command{
   @Override
   public void initialize() {
     intakeSubsystem.stopIntake();
-    shooterSubsystem.setShooterSpeed(1000, 1000);
+    shooterSubsystem.setShooterSpeed(5000, 5000);
     spunUp = false;
   }
 
@@ -35,7 +35,7 @@ public class ShootCommand extends Command{
 
     // Turn on intake if shooter is spun up
     if (spunUp) {
-      intakeSubsystem.setIntakeSpeed(0.7);
+      intakeSubsystem.setIntakeSpeed(-1.0);
     }
 
     // Tell the intake subsystem that we fired the note

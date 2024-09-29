@@ -22,7 +22,7 @@ public class IntakeCommand extends Command{
     shooterSubsystem.stopShooter();
 
     // Start intaking
-    intakeSubsystem.setIntakeSpeed(-0.6);
+    intakeSubsystem.setIntakeSpeed(-0.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

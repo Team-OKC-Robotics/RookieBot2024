@@ -55,6 +55,7 @@ public class RobotContainer
   {
     //Adding Auto Chooser Options
     autoChooser.setDefaultOption("Move Forward", "Move Forward");
+    autoChooser.addOption("Move Foward after 10s", "Move Foward after 10s");
     autoChooser.addOption("No Auto", "No Auto");
     // autoChooser.addOption("Short Line Two", "Short Line Two");
 

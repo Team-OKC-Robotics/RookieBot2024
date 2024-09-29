@@ -42,9 +42,10 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public void setHasNote(boolean has_note) {
         this.has_note = has_note;
-        hasNoteEntry.setBoolean(has_note);
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+        hasNoteEntry.setBoolean(sensingNote());
+    }
 }

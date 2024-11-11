@@ -18,9 +18,14 @@ public class OutakeCommand extends Command{
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Stop shooter so we don't accidentally shoot the note we are intaking
-    shooterSubsystem.stopShooter();
-    intakeSubsystem.setIntakeSpeed(0.3);
+    // TODO: Stop shooter (so we don't accidentally shoot the note we are outtaking)
+    
+
+
+    // TODO: Start outtaking
+
+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,7 +37,10 @@ public class OutakeCommand extends Command{
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.stopIntake();
+    // TODO: Stop outtaking once the command is finished (e.g. when the user lets go of the button)
+
+
+    
   }
 
   // Returns true when the command should end.

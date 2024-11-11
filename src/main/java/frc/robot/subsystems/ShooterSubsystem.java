@@ -65,28 +65,32 @@ public class ShooterSubsystem extends SubsystemBase{
         right_PID_controller.setFF(PID_FF);
     }
 
-    public void setShooterSpeed(double left_speed, double right_speed) {
-        left_motor_setpoint = left_speed;
-        right_motor_setpoint = right_speed;
-        setPIDReferences();
-    }
+    // TODO: Create a function that sets the speed of the shooter motors
+    // The function should have two parameters: the left shooter speed and the right shooter speed
+    // The left_motor_setpoint and right_motor_setpoint should be set and
+    // then setPIDReferences() should be called.
 
-    public void stopShooter() {
-        left_motor_setpoint = 0;
-        right_motor_setpoint = 0;
-        setPIDReferences();
-    }
 
+
+    // TODO: Create a function that stops the motors. Does this function need any parameters?
+    // The left_motor_setpoint and right_motor_setpoint should be set and
+    // then setPIDReferences() should be called.
+
+
+
+    // TODO: Create a function that
+    //   Returns TRUE if BOTH the left and the right motor speeds are within some tolerance of the left and right motor setpoints
+    //   Returns FALSE otherwise
+    // Hint: left_encoder.getVelocity() will get you the current speed of the left motor
+    // Hint: RPM_DIFF_THRESHOLD is the max difference between the current speed and setpoint speed we want to tolerate.
+    //   How will you handle both cases where the current speed can be above or below the setpoint?
+
+
+
+    
     private void setPIDReferences() {
         left_PID_controller.setReference(left_motor_setpoint, CANSparkMax.ControlType.kVelocity);
         right_PID_controller.setReference(right_motor_setpoint, CANSparkMax.ControlType.kVelocity);
-    }
-
-    public boolean atFullSpeed() {
-        // Check if the shooter motors are within the RPM_DIFF_THRESHOLD of the setpoint
-        boolean left_motor_at_speed = Math.abs(left_encoder.getVelocity() - left_motor_setpoint) < RPM_DIFF_THRESHOLD;
-        boolean right_motor_at_speed = Math.abs(right_encoder.getVelocity() - right_motor_setpoint) < RPM_DIFF_THRESHOLD;
-        return left_motor_at_speed && right_motor_at_speed;
     }
 
     @Override

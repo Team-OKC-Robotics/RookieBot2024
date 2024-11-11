@@ -34,7 +34,6 @@ public class RobotContainer
   private final ShootCommand shootCommand = new ShootCommand(shooterSubsystem, intakeSubsystem);
   private final IntakeCommand intakeCommand = new IntakeCommand(shooterSubsystem, intakeSubsystem);
   private final OutakeCommand outakeCommand = new OutakeCommand(shooterSubsystem, intakeSubsystem);
-  private final TimedIntakeCommand pullBackCommand = new TimedIntakeCommand(shooterSubsystem, intakeSubsystem, 0.5);
 
   private final JoystickButton driver_a_button = new JoystickButton(driverXbox, 1);
   private final JoystickButton driver_left_bumper_button = new JoystickButton(driverXbox, 5);

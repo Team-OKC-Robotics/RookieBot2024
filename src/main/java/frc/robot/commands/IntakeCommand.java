@@ -18,28 +18,34 @@ public class IntakeCommand extends Command{
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Stop shooter so we don't accidentally shoot the note we are intaking
-    shooterSubsystem.stopShooter();
+    // TODO: Stop the shooter motors (so we don't accidentally shoot the note we are intaking)    
 
-    // Start intaking
-    intakeSubsystem.setIntakeSpeed(-0.5);
+
+
+    // TODO: Start the intake motors
+    // Hint: Use a speed around 0.5 (or -0.5 depending on if the motor is backwards)
+
+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Continue intaking until we sense the note
-    if (intakeSubsystem.sensingNote()) {
-      intakeSubsystem.setHasNote(true);
-      intakeSubsystem.setIntakeSpeed(0);
-    }
+    // TODO: If we are sensing a note, stop the intake motors.
+    // Hint: Use the sensingNote() function of the shooterSubsystem
+
+
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // Stop intaking when command ends
-    intakeSubsystem.stopIntake();
+    // TODO: Stop the intake motors
+
+
+    
   }
 
   // Returns true when the command should end.

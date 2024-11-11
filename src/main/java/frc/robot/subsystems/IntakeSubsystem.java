@@ -13,8 +13,6 @@ public class IntakeSubsystem extends SubsystemBase{
     private final CANSparkMax intake_motor = new CANSparkMax(10, MotorType.kBrushless);
     private final DigitalInput photoelectric_switch = new DigitalInput(0);
 
-    private boolean has_note = false;
-
     private ShuffleboardTab tab = Shuffleboard.getTab("Driver");
     private GenericEntry hasNoteEntry = tab.add("Has Note", false).getEntry();
 
@@ -24,24 +22,19 @@ public class IntakeSubsystem extends SubsystemBase{
         intake_motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
 
-    public void setIntakeSpeed(double speed) {
-        intake_motor.set(speed);
-    }
+    // TODO: Create a function that sets the speed of the intake motor
+    // Hint: Use the .set() function of the intake_motor. You do not need to use the PID
+    // functions like in the ShooterSubsystem
 
+
+
+    // TODO: Create a function that stops the intake motor
+
+
+
+    
     public boolean sensingNote() {
         return !photoelectric_switch.get();
-    }
-
-    public boolean hasNote() {
-        return this.has_note;
-    }
-
-    public void stopIntake() {
-        intake_motor.set(0);
-    }
-
-    public void setHasNote(boolean has_note) {
-        this.has_note = has_note;
     }
 
     @Override

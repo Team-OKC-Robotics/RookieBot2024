@@ -19,12 +19,12 @@ public class IntakeCommand extends Command{
   @Override
   public void initialize() {
     // TODO: Stop the shooter motors (so we don't accidentally shoot the note we are intaking)    
-
+    shooterSubsystem.stopShooter();
 
 
     // TODO: Start the intake motors
     // Hint: Use a speed around 0.5 (or -0.5 depending on if the motor is backwards)
-
+    intakeSubsystem.setIntakeSpeed(0.5);
 
 
   }
@@ -34,7 +34,9 @@ public class IntakeCommand extends Command{
   public void execute() {
     // TODO: If we are sensing a note, stop the intake motors.
     // Hint: Use the sensingNote() function of the shooterSubsystem
-
+    if (intakeSubsystem.sensingNote()) {
+      intakeSubsystem.stopIntake();
+    }
 
 
   }
@@ -43,7 +45,7 @@ public class IntakeCommand extends Command{
   @Override
   public void end(boolean interrupted) {
     // TODO: Stop the intake motors
-
+    intakeSubsystem.stopIntake();
 
     
   }

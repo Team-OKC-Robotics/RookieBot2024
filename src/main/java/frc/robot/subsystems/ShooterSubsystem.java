@@ -69,13 +69,24 @@ public class ShooterSubsystem extends SubsystemBase{
     // The function should have two parameters: the left shooter speed and the right shooter speed
     // The left_motor_setpoint and right_motor_setpoint should be set and
     // then setPIDReferences() should be called.
+    public void setShooterSpeed(double leftShooterSpeed, double rightShooterSpeed) {
+        left_motor_setpoint = leftShooterSpeed;
+        right_motor_setpoint = rightShooterSpeed;
+
+        setPIDReferences();
+    }
 
 
 
     // TODO: Create a function that stops the motors. Does this function need any parameters?
     // The left_motor_setpoint and right_motor_setpoint should be set and
     // then setPIDReferences() should be called.
+    public void stopShooter() {
+        left_motor_setpoint = 0;
+        right_motor_setpoint = 0;;
 
+        setPIDReferences();
+    }
 
 
     // TODO: Create a function that
@@ -85,7 +96,13 @@ public class ShooterSubsystem extends SubsystemBase{
     // Hint: RPM_DIFF_THRESHOLD is the max difference between the current speed and setpoint speed we want to tolerate.
     //   How will you handle both cases where the current speed can be above or below the setpoint?
 
-
+    public boolean motorSpeedsWIthinBounds() {
+        if (left_encoder.getVelocity() > (left_motor_setpoint - RPM_DIFF_THRESHOLD) && right_encoder.getVelocity() > (right_motor_setpoint - RPM_DIFF_THRESHOLD)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     
     private void setPIDReferences() {

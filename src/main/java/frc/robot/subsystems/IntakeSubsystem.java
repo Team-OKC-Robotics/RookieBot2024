@@ -18,19 +18,22 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public IntakeSubsystem() {
         intake_motor.restoreFactoryDefaults();
-        intake_motor.setInverted(false);
+        intake_motor.setInverted(true);
         intake_motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
 
     // TODO: Create a function that sets the speed of the intake motor
     // Hint: Use the .set() function of the intake_motor. You do not need to use the PID
     // functions like in the ShooterSubsystem
-
+    public void setIntakeSpeed(double intakeSpeed) {
+        intake_motor.set(intakeSpeed);
+    }
 
 
     // TODO: Create a function that stops the intake motor
-
-
+    public void stopIntake() {
+        intake_motor.set(0);
+    }
 
     
     public boolean sensingNote() {

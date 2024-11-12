@@ -19,11 +19,11 @@ public class OutakeCommand extends Command{
   @Override
   public void initialize() {
     // TODO: Stop shooter (so we don't accidentally shoot the note we are outtaking)
-    
+    shooterSubsystem.stopShooter();
 
 
     // TODO: Start outtaking
-
+    intakeSubsystem.setIntakeSpeed(-0.5);
 
 
   }
@@ -38,7 +38,7 @@ public class OutakeCommand extends Command{
   @Override
   public void end(boolean interrupted) {
     // TODO: Stop outtaking once the command is finished (e.g. when the user lets go of the button)
-
+    intakeSubsystem.stopIntake();
 
     
   }
@@ -50,3 +50,4 @@ public class OutakeCommand extends Command{
   }
     
 }
+

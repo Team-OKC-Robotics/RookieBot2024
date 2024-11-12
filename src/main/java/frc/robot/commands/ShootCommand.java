@@ -21,16 +21,16 @@ public class ShootCommand extends Command{
   @Override
   public void initialize() {
     // TODO: Stop the intake
-    
+    intakeSubsystem.stopIntake();
 
 
     // TODO: Set the shooter speed to 5000 for both motors
-    
+    shooterSubsystem.setShooterSpeed(5000, 5000);
 
 
     // TODO: Set the spunUp variable to false
     // We will use this to keep track of when the shooter is ready to shoot
-
+    spunUp = false;
 
 
   }
@@ -39,12 +39,16 @@ public class ShootCommand extends Command{
   @Override
   public void execute() {
     // TODO: Check if the shooter is at the speed setpoint. If so, set spunUp to true
-
+    if (shooterSubsystem.motorSpeedsWIthinBounds()) {
+      spunUp = true;
+    }
 
 
     // TODO: If spunUp is true, set the intake speed to send the note to the shooter
 
-
+    if (spunUp) {
+      intakeSubsystem.setIntakeSpeed(1);
+    }
 
   }
 
@@ -52,7 +56,8 @@ public class ShootCommand extends Command{
   @Override
   public void end(boolean interrupted) {
     // TODO: Stop the intake motors AND stop the shooter motors
-
+    intakeSubsystem.stopIntake();
+    shooterSubsystem.stopShooter();
 
     
   }
@@ -62,5 +67,3 @@ public class ShootCommand extends Command{
   public boolean isFinished() {
     return false;
   }
-    
-}

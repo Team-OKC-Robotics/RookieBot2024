@@ -23,13 +23,13 @@ public class RobotContainer
 {
 
   final XboxController driverXbox = new XboxController(0);
-  //private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-  //                                                                       "swerve"));
+  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+                                                                         "swerve"));
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-  //AbsoluteDrive absoluteDriveSlow = new AbsoluteDrive(drivebase, driverXbox, 0.4);
-  //AbsoluteDrive absoluteDriveFast = new AbsoluteDrive(drivebase, driverXbox, 0.6);
+  AbsoluteDrive absoluteDriveSlow = new AbsoluteDrive(drivebase, driverXbox, 0.4);
+  AbsoluteDrive absoluteDriveFast = new AbsoluteDrive(drivebase, driverXbox, 0.6);
 
   private final ShootCommand shootCommand = new ShootCommand(shooterSubsystem, intakeSubsystem);
   private final IntakeCommand intakeCommand = new IntakeCommand(shooterSubsystem, intakeSubsystem);
@@ -62,21 +62,21 @@ public class RobotContainer
 
     tab.add(autoChooser);
 
-    // Set default swerve drive command
-    //drivebase.setDefaultCommand(absoluteDriveSlow);
+    Set default swerve drive command
+    drivebase.setDefaultCommand(absoluteDriveSlow);
   }
 
   private void configureBindings()
   {
-    //driver_a_button.onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    driver_a_button.onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driver_x_button.whileTrue(outakeCommand);
-    //driver_b_button.whileTrue(absoluteDriveFast);
+    driver_b_button.whileTrue(absoluteDriveFast);
     driver_left_bumper_button.whileTrue(intakeCommand);
     driver_right_bumper_button.whileTrue(shootCommand);
   }
 
   public void zeroGyro() {
-    //drivebase.zeroGyro();
+    drivebase.zeroGyro();
   }
 
   public Command getAutonomousCommand()
